@@ -1,0 +1,130 @@
+ENVT0100,LM:2026/11/17 10:40:50:257,DS:0000001718,CS:17256,MA:08-F9-7E-F5-18-2B,EI:           
+sVersion="1.0.0"
+nDisplayMode=4
+nNumberOfPoints=7
+Point1 {
+	nNumber=1
+	sLabel="Infeed_Token"
+	sDescription="Pick and Place"
+	rX=25.414
+	rY=10.233
+	rZ=-0.789
+	rU=0
+	rV=0
+	rW=0
+	nLocal=1
+	nHand=1
+	nElbow=1
+	nWrist=1
+	nJ4Flag=0
+	nJ6Flag=0
+	bSimVisible=False
+}
+Point2 {
+	nNumber=2
+	sLabel="Infeed_Block"
+	sDescription="Pick and Place"
+	rX=30.108
+	rY=34.233
+	rZ=-0.789
+	rU=0
+	rV=0
+	rW=0
+	nLocal=1
+	nHand=1
+	nElbow=1
+	nWrist=1
+	nJ4Flag=0
+	nJ6Flag=0
+	bSimVisible=False
+}
+Point3 {
+	nNumber=3
+	sLabel="Align_Token"
+	sDescription="Pick and place"
+	rX=24.836
+	rY=9.062
+	rZ=-3.764
+	rU=0
+	rV=0
+	rW=0
+	nLocal=2
+	nHand=1
+	nElbow=1
+	nWrist=1
+	nJ4Flag=0
+	nJ6Flag=0
+	bSimVisible=False
+}
+Point4 {
+	nNumber=4
+	sLabel="Align_Block"
+	sDescription="Pick and Place"
+	rX=30.563
+	rY=32.307
+	rZ=-3.264
+	rU=0
+	rV=0
+	rW=0
+	nLocal=2
+	nHand=1
+	nElbow=1
+	nWrist=1
+	nJ4Flag=0
+	nJ6Flag=0
+	bSimVisible=False
+}
+Point5 {
+	nNumber=5
+	sLabel="Tray_Token"
+	sDescription="Pick and Place"
+	rX=19.381
+	rY=78.513
+	rZ=-0.5
+	rU=0
+	rV=0
+	rW=0
+	nLocal=3
+	nHand=1
+	nElbow=1
+	nWrist=1
+	nJ4Flag=0
+	nJ6Flag=0
+	bSimVisible=False
+}
+Point6 {
+	nNumber=6
+	sLabel="Tray_Block"
+	sDescription="Pick and Place"
+	rX=50.381
+	rY=79.013
+	rZ=-0.5
+	rU=0
+	rV=0
+	rW=0
+	nLocal=3
+	nHand=1
+	nElbow=1
+	nWrist=1
+	nJ4Flag=0
+	nJ6Flag=0
+	bSimVisible=False
+}
+Point7 {
+	nNumber=7
+	sLabel="Retract_Safe"
+	sDescription="Pick and Place"
+	rX=-58.59
+	rY=-32.654
+	rZ=-102.245
+	rU=-90
+	rV=0
+	rW=0
+	nLocal=1
+	nHand=1
+	nElbow=1
+	nWrist=1
+	nJ4Flag=0
+	nJ6Flag=0
+	bSimVisible=False
+}

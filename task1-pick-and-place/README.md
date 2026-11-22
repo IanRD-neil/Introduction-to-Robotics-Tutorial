@@ -14,6 +14,16 @@ Files:
 - [`Main.prg`](Main.prg): the SPEL+ program we ran on the robot.
 - [`Points.pts`](Points.pts): the points we taught (RC+ point file).
 
+## Result on the real robot
+
+<table>
+  <tr>
+    <td align="center"><img src="../media/task1-pick-and-place-run.gif" width="240"><br><sub>Full run (GIF sped up 4x)</sub></td>
+    <td align="center"><img src="../media/task1-before.jpg" width="240"><br><sub>Before: parts in the infeed (left), alignment station (right), empty tray (front)</sub></td>
+    <td align="center"><img src="../media/task1-after.jpg" width="240"><br><sub>After: parts placed in the tray</sub></td>
+  </tr>
+</table>
+
 ## Taught points
 
 All the points were taught with **Tool 1** (the vacuum nozzle). Coordinates are

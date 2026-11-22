@@ -20,6 +20,16 @@ In this task the alignment station is **not used**, so the program only needs
 
 File: [`Main.prg`](Main.prg) (SPEL+, Epson RC+).
 
+## Result on the real robot
+
+<table>
+  <tr>
+    <td align="center"><img src="../media/task2-stacking-run.gif" width="240"><br><sub>Full run with vacuum (GIF sped up 4x)</sub></td>
+    <td align="center"><img src="../media/task2-before.jpg" width="240"><br><sub>Before: token and block stacks in the infeed, empty tray</sub></td>
+    <td align="center"><img src="../media/task2-tower.jpg" width="240"><br><sub>After: the finished tower, token / block alternating</sub></td>
+  </tr>
+</table>
+
 ## What changed compared to Task 1
 
 | | Task 1 - Pick and place | Task 2 - Stacking |
@@ -136,7 +146,7 @@ The program is tested in two steps, changing only one line:
 - [x] Dry run with `UseIO = False`, cell empty, `Speed 10`
 - [x] Vacuum works on output 8 (`On 8` / `Off 8`)
 - [x] Full run with `UseIO = True`: the tower was built correctly
-- [ ] Full run at normal speed + video
+- [x] Video of the full run (see the result above)
 
 ## If something goes wrong
 

@@ -1,2 +1,7 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Epson RC+ files: keep Windows line endings so they open cleanly in RC+
+*.prg text eol=crlf
+# Point files carry a size/checksum header, store them byte-for-byte
+*.pts -text

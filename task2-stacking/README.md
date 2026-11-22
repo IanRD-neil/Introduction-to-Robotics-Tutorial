@@ -134,8 +134,8 @@ The program is tested in two steps, changing only one line:
 - [x] Tool 1 and Locals 1 and 3 checked (`Go Tray_Token -Z(10)` and `Go Infeed_Token -Z(10)` in the Command Window, the nozzle should be centered)
 - [x] Build without errors
 - [x] Dry run with `UseIO = False`, cell empty, `Speed 10`
-- [ ] Vacuum test in the Command Window (`On 8` / `Off 8`)
-- [ ] Full run with `UseIO = True`, low speed
+- [x] Vacuum works on output 8 (`On 8` / `Off 8`)
+- [x] Full run with `UseIO = True`: the tower was built correctly
 - [ ] Full run at normal speed + video
 
 ## If something goes wrong

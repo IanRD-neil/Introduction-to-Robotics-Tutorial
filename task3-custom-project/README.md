@@ -1,6 +1,26 @@
 # Task 3 - Robot Claw Machine
 
-**Status: concept chosen, in design.** We'll update this page as we build it.
+**Status: first version of the program written, testing on the robot next.**
+We'll update this page as we build it.
+
+File: [`Main.prg`](Main.prg) (v1). It contains two programs:
+- `main`: the game.
+- `main1`: an I/O test that prints every input that changes. We use it to find
+  which input each button of the I/O box is connected to.
+
+New points for this task (taught with Tool 1 in **Local 0 / world**, because
+the program reads the current position with `P*`, which is in world
+coordinates):
+
+| Point | What it is |
+|---|---|
+| `ClawA` | One corner of the prize area, nozzle touching the top of a prize |
+| `ClawB` | Opposite corner of the prize area (only X and Y are used) |
+| `ClawHigh` | Above the prize area, at travel height (also the home position) |
+| `ChuteDrop` | Where the prize is released, just above the chute |
+
+The program only uses the differences between these points, so the direction
+of "up" always comes from the points themselves.
 
 For the integration task we are turning the robot cell into an arcade **claw
 machine**. The robot is the claw and the vacuum nozzle grabs the prize. The
@@ -43,7 +63,8 @@ players are our classmates, and the prizes are candies.
 ## Plan
 
 - [ ] Find which inputs/outputs the I/O box buttons, buzzer and vacuum sensor use
-- [ ] First version with the course tokens as prizes: sweeps with `Till`, drop, sensor check, buzzer
+- [x] First version of the program (`Main.prg` v1): sweeps with `Till`, drop, sensor check, chute, buzzer, score kept with `Global Preserve`
+- [ ] Test v1 on the robot with the course tokens as prizes (dry run first, then with vacuum)
 - [ ] Design and print the prize area, capsules and chute
 - [ ] Automatic refill from the infeed + prize counter
 - [ ] Stop / Reset handling and recovery after a stop

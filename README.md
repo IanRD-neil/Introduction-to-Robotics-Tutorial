@@ -12,7 +12,7 @@ three tasks:
 |---|---|---|---|
 | 1 | **Pick and place**: moves tokens and blocks from the infeed to the tray, passing through an alignment station. The base code was given by the course. | Done | [`task1-pick-and-place`](task1-pick-and-place/) |
 | 2 | **Stacking**: builds one tower in the tray, alternating token / block. | Done | [`task2-stacking`](task2-stacking/) |
-| 3 | **Custom project**: our own application. | Not defined yet | [`task3-custom-project`](task3-custom-project/) |
+| 3 | **Integration project: Robot Claw Machine**. Our classmates play an arcade claw machine where the robot is the claw (I/O box buttons, vacuum sensor, 3D-printed parts, HMI). | In design | [`task3-custom-project`](task3-custom-project/) |
 
 ## Demos
 
@@ -55,7 +55,7 @@ coordinate system for each fixture. That is explained in
 │   ├── README.md                 <- how the stacking program works and how we tested it
 │   └── Main.prg                  <- SPEL+ program (uses the same points as Task 1)
 ├── task3-custom-project/
-│   └── README.md                 <- ideas, will be updated when we decide
+│   └── README.md                 <- Task 3 concept and plan (claw machine)
 └── media/                        <- GIFs and photos of the runs
 ```
 
@@ -78,4 +78,5 @@ coordinate system for each fixture. That is explained in
 | Nov 17, 2026 | Task 1 (pick and place) working on the real robot, saved the final points and program. |
 | Nov 21, 2026 | Task 2 (stacking): wrote the program, did the dry run without I/O and then the full run with the vacuum. The tower was built correctly. |
 | Nov 22, 2026 | Added the videos (as GIFs) and photos of Task 1 and Task 2. |
-| Next | Define Task 3 with the group. |
+| Nov 23, 2026 | Chose the Task 3 project: a robot claw machine. |
+| Next | Map the I/O box signals and build the first version of the claw machine. |

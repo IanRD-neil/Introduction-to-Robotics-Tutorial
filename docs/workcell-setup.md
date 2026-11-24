@@ -90,6 +90,40 @@ With Tool 1 selected, we taught the points on the center of each part position
 [`task1-pick-and-place/Points.pts`](../task1-pick-and-place/Points.pts) and
 explained in the [Task 1 README](../task1-pick-and-place/README.md#taught-points).
 
+## 6. Our tool and local values (Robot 2)
+
+These are the values that worked for us. We got them from the controller
+backup of 17/11 (`CurrentMnp01.Prm`).
+
+| | X | Y | Z | U | V | W |
+|---|---|---|---|---|---|---|
+| Tool 1 (vacuum nozzle) | -0.762 | -2.677 | 74.499 | 0 | 0 | 0 |
+| Local 1 (infeed) | 336.263 | -34.705 | 16.586 | 0 | 0 | 180 |
+| Local 2 (alignment) | 337.263 | 82.653 | 17.086 | 0 | 0 | 180 |
+| Local 3 (tray) | 404.558 | 61.930 | 16.585 | 0 | 0 | 180 |
+
+W = 180 is the reason why Z points down in our locals (see section 3).
+
+### What happened on 24/11
+
+Task 2 worked on Saturday (21/11), but on Tuesday all the points were wrong,
+even though `Points.pts` didn't change. When we checked Robot Manager we saw
+that another group had changed **Tool 1** (Z was about 20 mm longer, they
+probably use a different nozzle or gripper) and **Local 3**. Local 1 and 2 were
+still ok.
+
+We wrote our values back in Robot Manager (Tools / Locals, then Apply). To avoid
+this in the future, the programs now set the tool and the locals by code at the
+start of `main`:
+
+```
+TLSet 1, XY(-0.762, -2.677, 74.499, 0, 0, 0)       ' vacuum nozzle
+Local 1, XY(336.263, -34.705, 16.586, 0, 0, 180)   ' infeed
+Local 3, XY(404.558, 61.930, 16.585, 0, 0, 180)    ' tray
+```
+
+Task 3 only sets Tool 1, because its points are taught in Local 0 (world).
+
 ## Things to check every lab session
 
 - The robot is shared with other groups, and **tools and locals are stored in

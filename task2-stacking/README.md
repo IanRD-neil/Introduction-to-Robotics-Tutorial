@@ -72,7 +72,7 @@ flowchart TD
 | `PartH` | 6.0 mm | Thickness of one part |
 | `PlaceGap` | 0.5 mm | The part is released 0.5 mm above the tower, so the nozzle never pushes down on it |
 | `ApproachH` | 40 mm | Height above the tower before going down |
-| `FastS` | 500 mm/s | Normal linear speed |
+| `FastS` | 100 mm/s (500 once everything works) | Normal linear speed |
 | `SlowS` | 30 mm/s | Linear speed for the last move down onto the tower |
 | `UseIO` | True / False | Turns the vacuum (output 8) on or off for the whole program |
 
@@ -114,14 +114,21 @@ goes **up** 6 mm each time:
   SpeedS SlowS
   Move Tray_Token -Z(zUp)               ' straight down, slow
   VacOff()                              ' release
-  Move Tray_Token -Z(zUp + ApproachH)   ' straight up
   SpeedS FastS
+  Move Tray_Token -Z(zUp + ApproachH)   ' straight up
   ```
   I removed the `CP` before going down. With `CP` the robot starts going down
   before it finishes the move above the tower, so it would come in diagonally
   and could hit the tower.
 - **`VacOn()` / `VacOff()`**: only switch output 8 when `UseIO = True`, and wait
   0.5 s in both cases.
+
+### Tool and locals set by code
+
+At the start of `main` the program writes Tool 1 and Locals 1 and 3 with
+`TLSet` and `Local`. We added this after 24/11, when another group changed
+them in the shared controller and our points stopped working. The values and
+the full story are in [`docs/workcell-setup.md`](../docs/workcell-setup.md#6-our-tool-and-local-values-robot-2).
 
 ## Without I/O and with I/O
 

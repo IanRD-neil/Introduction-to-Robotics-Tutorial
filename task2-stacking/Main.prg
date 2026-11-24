@@ -11,6 +11,11 @@
 ' Parts are taken from the infeed stacks, from the top down.
 '
 ' Note: in our locals -Z points UP (same as in Task 1).
+'
+' Tool 1 and Locals 1 and 3 are set by code at the start of main.
+' They are stored in the controller, which is shared with other groups,
+' and on 24/11 another group had changed Tool 1 and Local 3, so all our
+' points were wrong. Values are from our controller backup (17/11).
 '==============================================================
 
 ' ---------- Settings (change here) ----------
@@ -36,7 +41,7 @@ Function main
 	PartH = 6.0
 	PlaceGap = 0.5
 	ApproachH = 40
-	FastS = 500          ' we used 100 for the first test
+	FastS = 100          ' 100 while testing, 500 when everything works
 	SlowS = 30           ' keep it low, this is the move onto the tower
 	UseIO = True         ' step 1: False (dry run, no I/O)  step 2: True (with I/O)
 
@@ -46,6 +51,11 @@ Function main
 	Accel 30, 30
 	SpeedS FastS
 	AccelS 5000
+
+	' Our tool and locals (same values as in docs/workcell-setup.md)
+	TLSet 1, XY(-0.762, -2.677, 74.499, 0, 0, 0)       ' vacuum nozzle
+	Local 1, XY(336.263, -34.705, 16.586, 0, 0, 180)   ' infeed
+	Local 3, XY(404.558, 61.930, 16.585, 0, 0, 180)    ' tray
 	Tool 1
 
 	TokLeft = NTokens
@@ -134,6 +144,6 @@ Function Place_Stack(lvl As Integer)
 	SpeedS SlowS
 	Move Tray_Token -Z(zUp)               ' straight down, slow
 	VacOff()
-	Move Tray_Token -Z(zUp + ApproachH)   ' straight up
 	SpeedS FastS
+	Move Tray_Token -Z(zUp + ApproachH)   ' straight up
 Fend

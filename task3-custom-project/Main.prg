@@ -1,23 +1,32 @@
 '==============================================================
-' TASK 3 - ROBOT CLAW MACHINE   (Epson C3, vacuum nozzle)   v1
+' TASK 3 - ROBOT CLAW MACHINE   (Epson C3, vacuum nozzle)   v1.2
+' Cabinet version (v3 box): the claw always goes back to the prize hole
+' and releases there. The prize falls down the shaft, slides on the
+' internal ramp and comes out on the platform at the front.
 '
 ' How to play:
 '   1. Press START (green). If START is not set, FORWARD (blue) starts.
 '   2. The claw sweeps left/right  -> press FORWARD (blue) to stop it.
 '   3. The claw sweeps front/back  -> press REVERSE (white) to stop it.
 '   4. It goes down with the vacuum on. The pressure switch tells if it
-'      caught a prize. Caught -> prize goes to the chute (win sound).
+'      caught a prize. Then the claw goes back to the prize hole and
+'      releases. Caught -> the prize falls to the door (win sound).
 '      Missed -> lose sound. Nobody presses -> it stops by itself.
+'   If the claw is stopped over the prize hole corner, it doesn't go down.
 '   RESET (orange) clears the score, STOP (red) ends the program.
 '
 ' Points - teach them with TOOL 1 and LOCAL 0 (world)!
-'   ClawA     one corner of the prize area, nozzle touching the TOP of a prize
-'   ClawB     opposite corner of the prize area (only X and Y are used)
-'   ClawHigh  above the prize area at travel height (home + travel height)
-'   ChuteDrop where the prize is released, just above the chute
+'   ClawA     FRONT-LEFT mark on the play floor, nozzle touching the TOP of a capsule
+'   ClawB     BACK-RIGHT mark on the play floor (only X and Y are used)
+'   ClawHigh  above the play floor at travel height (only Z is used)
+'   HoleDrop  above the centre of the prize hole, at travel height
+'             (home of the claw + where it releases)
 '
 ' main  = the game
 ' main1 = I/O test, prints every input that changes (to find the buttons)
+'
+' v1.2: Tool 1 is set by code at the start (the controller is shared
+'       with other groups and they sometimes change it)
 '==============================================================
 
 ' ---------- I/O numbers (fill in after running main1) ----------
@@ -39,9 +48,11 @@ Integer DownS        ' speed going down to the prize [mm/s]
 Integer MaxPasses    ' sweeps before the claw stops by itself
 Double VacWait       ' max time to wait for the vacuum sensor [s]
 Integer WeakClaw     ' % chance that the claw drops the prize (0 = fair)
+Double HoleFracX     ' prize hole corner (front-right): no grab if the claw
+Double HoleFracY     ' stops with X beyond HoleFracX and Y before HoleFracY
 
 ' ---------- Working variables ----------
-Double DxAB, DyAB, DzUp, DzChute
+Double DxAB, DyAB, DzUp
 Double Xs, Ys
 Integer StopPrev
 Global Preserve Integer gGames     ' kept even after a power cut
@@ -68,6 +79,8 @@ Function main
 	MaxPasses = 4
 	VacWait = 0.8
 	WeakClaw = 0
+	HoleFracX = 2.0      ' 2.0 = OFF (no cabinet yet). With the printed cabinet: 0.63
+	HoleFracY = 0.38
 
 	If BtnX < 0 Or BtnY < 0 Then
 		Print "ERROR: set BtnX and BtnY first (run main1 to find the inputs)"
@@ -80,6 +93,7 @@ Function main
 	Accel 30, 30
 	SpeedS TravelS
 	AccelS 2000
+	TLSet 1, XY(-0.762, -2.677, 74.499, 0, 0, 0)   ' our vacuum nozzle
 	Tool 1
 	Randomize
 
@@ -88,7 +102,6 @@ Function main
 	DxAB = CX(ClawB) - CX(ClawA)
 	DyAB = CY(ClawB) - CY(ClawA)
 	DzUp = CZ(ClawHigh) - CZ(ClawA)
-	DzChute = CZ(ClawHigh) - CZ(ChuteDrop)
 
 	If Abs(DzUp) < 20 Or Abs(DxAB) < 20 Or Abs(DyAB) < 20 Then
 		Print "ERROR: check the points (area too small or ClawHigh too low)"
@@ -96,7 +109,7 @@ Function main
 	EndIf
 
 	VacOff()
-	Go ClawHigh
+	Go HoleDrop
 	If BtnStop >= 0 Then
 		StopPrev = Sw(BtnStop)
 	EndIf
@@ -111,17 +124,18 @@ Function main
 	Loop
 
 	VacOff()
-	Go ClawHigh
+	Go HoleDrop
 	Print "Claw machine stopped"
 
 Fend
 
 '--------------------------------------------------------------
-' One game: two sweeps, drop, check, chute
+' One game: two sweeps, go down, check, back to the hole, release
 '--------------------------------------------------------------
 Function PlayOneGame
 	Boolean caught
 	Integer nPass
+	Double fx, fy
 
 	gGames = gGames + 1
 	Buzz(2, 0.1)
@@ -159,11 +173,19 @@ Function PlayOneGame
 	Ys = CY(P50) - CY(ClawA)
 
 	' 3) go down with the vacuum on and check the sensor
-	VacOn()
-	SpeedS DownS
-	Move ClawA +X(Xs) +Y(Ys)
-	caught = CheckVacuum()
-	Move ClawA +X(Xs) +Y(Ys) +Z(DzUp)
+	'    (not over the prize hole corner: there is nothing to grab there)
+	fx = Xs / DxAB
+	fy = Ys / DyAB
+	If fx > HoleFracX And fy < HoleFracY Then
+		Print "Prize hole corner, nothing to grab!"
+		caught = False
+	Else
+		VacOn()
+		SpeedS DownS
+		Move ClawA +X(Xs) +Y(Ys)
+		caught = CheckVacuum()
+		Move ClawA +X(Xs) +Y(Ys) +Z(DzUp)
+	EndIf
 	SpeedS TravelS
 
 	' optional "weak claw", like a real arcade machine
@@ -175,22 +197,17 @@ Function PlayOneGame
 		EndIf
 	EndIf
 
-	' 4) result
+	' 4) back to the prize hole and release (always, like a real machine)
+	Go HoleDrop
+	VacOff()
 	If caught = True Then
-		Go ChuteDrop +Z(DzChute)
-		Move ChuteDrop
-		VacOff()
-		Move ChuteDrop +Z(DzChute)
 		gWins = gWins + 1
-		Print "YOU WIN!"
+		Print "YOU WIN! Take your prize from the door"
 		Buzz(3, 0.15)
 	Else
-		VacOff()
 		Print "Missed... try again!"
 		Buzz(1, 1.0)
 	EndIf
-
-	Go ClawHigh
 Fend
 
 '--------------------------------------------------------------
